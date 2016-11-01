@@ -6,20 +6,22 @@
  * Time: 3:52 PM
  */
 namespace core;
+use core\lib\route;
+
 class  milo{
     public static $classMap= array();
     public $assign;
 
     public static function run()
     {
-        $route = new \core\lib\route();
+        $route = new route();
         $control=$route->control;
         $action=$route->action;
-        $CtrlFile=APP.'/control/'.$control.'Control'.'.php';
-        $CtrlClass='\\'.MODULE.'\control\\'.$control.'Control';
+        $CtrlFile=APP.'/controller/'.$control.'.php';
+        $CtrlClass='\\'.MODULE.'\controller\\'.$control;
         if (is_file($CtrlFile))
         {
-           include $CtrlFile;
+           include_once $CtrlFile;
            $ctrl = new $CtrlClass();
            if (method_exists($ctrl,$action))
            {
@@ -47,7 +49,7 @@ class  milo{
             $file=MILO.'/'.$class.'.php';
             if(is_file($file))
             {
-                include $file;
+                include_once $file;
                 self::$classMap[$class]=$class;
             }
             else
@@ -70,7 +72,7 @@ class  milo{
         if(is_file($file))
         {
             extract($this->assign);
-            include $file;
+            include_once $file;
         }
         else
         {
