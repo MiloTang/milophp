@@ -16,7 +16,7 @@ class Index extends milo
     public function index()
     {
         log::init();
-        log::log('wodiu');
+        log::log('have some issue');
         $data='view';
         $model = new model();
         $rst=$model->query('select * from user')->fetchAll();

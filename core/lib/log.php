@@ -16,8 +16,8 @@ class log
         self::$class=new $class;
     }
 
-    static public function log($name)
+    static public function log($message,$name='log')
     {
-        self::$class->log($name);
+        self::$class->log($message,$name);
     }
 }
