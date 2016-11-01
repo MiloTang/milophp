@@ -12,8 +12,4 @@ class indexControl
     {
         echo 'this is index control';
     }
-	public function abc(){
-		echo 'heloo abc';
-		
-	}
 }
