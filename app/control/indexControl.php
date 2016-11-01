@@ -6,10 +6,13 @@
  * Time: 22:01
  */
 namespace app\control;
-class indexControl
+class indexControl extends \core\milo
 {
     public function index()
     {
-        echo 'this is index control';
+        $data='view';
+        $this->assign('data',$data);
+        $this->assign('view','试图势力');
+        $this->display('index.html');
     }
 }

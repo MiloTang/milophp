@@ -8,6 +8,8 @@
 namespace core;
 class  milo{
     public static $classMap= array();
+    public $assign;
+
     public static function run()
     {
         $route = new \core\lib\route();
@@ -55,6 +57,25 @@ class  milo{
             }
         }
 
+    }
+
+    public function assign($name,$value)
+    {
+        $this->assign[$name] = $value;
+    }
+
+    public  function display($view)
+    {
+        $file=APP.'/views/'.$view;
+        if(is_file($file))
+        {
+            extract($this->assign);
+            include $file;
+        }
+        else
+        {
+            echo '对应的view不存在'.$view;
+        }
     }
     
 }
