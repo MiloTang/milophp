@@ -25,12 +25,12 @@ class  milo{
            }
            else
            {
-               throw new \Exception('找不到方法'.$action);
+              echo '找不到方法'.$action;
            }
         }
         else
         {
-            throw new \Exception('找不到控制器'.$CtrlClass);
+            echo '找不到控制器'.$CtrlClass;
         }
     }
     public static function load($class)
