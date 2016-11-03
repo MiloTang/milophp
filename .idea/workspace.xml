@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9eec2a76-d0dd-4e0f-a4d6-b84e43a6dbbd" name="Default" comment="update model">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/model/userModel.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/not.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/composer.json" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/log/2016110119log" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/htdocs.iml" afterPath="$PROJECT_DIR$/.idea/htdocs.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controller/Index.php" afterPath="$PROJECT_DIR$/app/controller/Index.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/config/database.php" afterPath="$PROJECT_DIR$/core/config/database.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/lib/drive/log/file.php" afterPath="$PROJECT_DIR$/core/lib/drive/log/file.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/lib/model.php" afterPath="$PROJECT_DIR$/core/lib/model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/milo.php" afterPath="$PROJECT_DIR$/core/milo.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/index.html" afterPath="$PROJECT_DIR$/app/views/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/20161103log" afterPath="$PROJECT_DIR$/log/20161103log" />
     </list>
     <ignored path="htdocs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="175">
-              <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
+              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -88,7 +79,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="model.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="model.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/lib/model.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="350">
@@ -153,7 +144,6 @@
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/app/control/indexControl.php" />
         <option value="$PROJECT_DIR$/core/lib/route.php" />
-        <option value="$PROJECT_DIR$/app/views/index.html" />
         <option value="$PROJECT_DIR$/core/lib/conf.php" />
         <option value="$PROJECT_DIR$/log/wodiu" />
         <option value="$PROJECT_DIR$/core/lib/log.php" />
@@ -170,6 +160,7 @@
         <option value="$PROJECT_DIR$/app/model/userModel.php" />
         <option value="$PROJECT_DIR$/app/controller/Index.php" />
         <option value="$PROJECT_DIR$/core/lib/model.php" />
+        <option value="$PROJECT_DIR$/app/views/index.html" />
       </list>
     </option>
   </component>
@@ -425,12 +416,12 @@
       <workItem from="1477646630585" duration="3277000" />
       <workItem from="1477920210925" duration="6357000" />
       <workItem from="1477983298018" duration="14643000" />
-      <workItem from="1478052088909" duration="14940000" />
+      <workItem from="1478052088909" duration="15548000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39217000" />
+    <option name="totallyTimeSpent" value="39825000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="886" extended-state="6" />
@@ -613,14 +604,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/config/database.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -666,6 +649,14 @@
           <folding>
             <marker date="1478168762253" expanded="true" signature="651:665" placeholder="select * fro... ${$table}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
