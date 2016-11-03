@@ -6,6 +6,7 @@
  * Time: 22:01
  */
 namespace app\controller;
+use app\model\userModel;
 use core\lib\conf;
 use core\lib\log;
 use core\lib\model;
@@ -18,10 +19,16 @@ class Index extends milo
         log::init();
         log::log('have some issue');
         $data='view';
-        $model = new model();
-        $rst=$model->query('select * from user')->fetchAll();
-        $this->assign('data',$rst);
+        $model = new userModel();
+     //   $rst=$model->lists();
+        $model->check();
+      //  $this->assign('data',$rst);
         $this->assign('view','试图势力');
         $this->display('index.html');
+    }
+    public function not()
+    {
+        $this->assign('view','试图势力');
+        $this->display('not.html');
     }
 }

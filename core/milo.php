@@ -29,12 +29,14 @@ class  milo{
            }
            else
            {
-              echo '找不到方法'.$action;
+              header("Location:http://localhost/index/not");
+              exit();
            }
         }
         else
         {
-            echo '找不到控制器'.$CtrlClass;
+            header("Location:http://localhost/index/not");
+            exit();
         }
     }
     public static function load($class)

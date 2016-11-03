@@ -7,7 +7,7 @@
  */
 return array(
 
-  'DSN' => 'mysql:host=localhost;dbname=test',
+  'DSN' => 'mysql:host=localhost;dbname=mysql',
   'USERNAME' => 'root',
   'PASSWD' =>''
 );
