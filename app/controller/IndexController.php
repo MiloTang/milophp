@@ -20,7 +20,7 @@ class IndexController extends BaseController
     public function index()
     {
         
-        //Log::log('have some issue');
+        Log::log('have some issue');
 
         //$data='view';
        // $model = new UserModel();
