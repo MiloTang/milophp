@@ -6,9 +6,9 @@
  * Time: 5:27 PM
  */
 namespace core\lib;
-use core\milo;
+use core\MiloPHP;
 
-class conf
+class Conf
 {
     static public $conf;
     static public function all($file)

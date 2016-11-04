@@ -5,9 +5,11 @@
     "keywords":["MILO PHP","PHP"],
     "require":{
         "php":">=5.6.0",
-        "filp/whoops":"*"
+        "filp/whoops":"*",
+        "smarty/smarty": "*"
 
     },
+
     "repositories": {
         "packagist": {
             "type": "composer",

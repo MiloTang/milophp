@@ -6,12 +6,12 @@
  * Time: 3:06 PM
  */
 namespace core\lib;
-use core\lib\conf;
-class model extends \PDO
+use core\lib\Conf;
+class Model extends \PDO
 {
     public function __construct()
     {
-        $database=conf::all('database');
+        $database=Conf::all('database');
         try
         {
             parent::__construct($database['DSN'], $database['USERNAME'], $database['PASSWD']);

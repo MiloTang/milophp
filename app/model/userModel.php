@@ -6,9 +6,9 @@
  * Time: 3:42 PM
  */
 namespace app\model;
-use core\lib\model;
+use core\lib\Model;
 
-class userModel extends model
+class UserModel extends Model
 {
     public $table='user';
     public function lists()
@@ -16,7 +16,7 @@ class userModel extends model
         $rst=$this->select($this->table);
         return $rst;
     }
-    public function Check()
+    public function check()
     {
         var_dump($this->fieldsCheck($this->table,'Host'));
     }

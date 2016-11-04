@@ -6,18 +6,14 @@
  * Time: 6:21 PM
  */
 namespace core\lib;
-class log
+use core\lib\drive\log\File;
+
+class Log
 {
     static $class;
-    static public function init()
-    {
-        $drive='file';
-        $class='\core\lib\drive\log\\'.$drive;
-        self::$class=new $class;
-    }
-
     static public function log($message,$name='log')
     {
+        self::$class=new File();
         self::$class->log($message,$name);
     }
 }

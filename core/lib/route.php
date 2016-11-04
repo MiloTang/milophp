@@ -7,7 +7,7 @@
  */
 namespace core\lib;
 
-class route
+class Route
 {
     public $control ='index';
     public $action ='index';
@@ -54,12 +54,5 @@ class route
         }
 
     }
-    public static function dumpArr($arr){
-        echo 'Array ('.'<br>';
-        foreach ($arr as $key=>$value){
-            echo "[<b>$key</b>]".'  <b>=></b>  '.$value.'<br>';
-
-        }
-        echo ')';
-    }
+   
 }

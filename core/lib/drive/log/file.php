@@ -6,7 +6,7 @@
  * Time: 6:33 PM
  */
 namespace core\lib\drive\log;
-class file
+class File
 {
     public $path;
     public function __construct()
