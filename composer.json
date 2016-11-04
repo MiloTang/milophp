@@ -1,0 +1,19 @@
+{
+    "name": "MILO PHP",
+    "description":"PHP Framework",
+    "type":"framework",
+    "keywords":["MILO PHP","PHP"],
+    "require":{
+        "php":">=5.6.0",
+        "filp/whoops":"*",
+        "smarty/smarty": "*"
+
+    },
+
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    }
+}

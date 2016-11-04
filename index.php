@@ -11,8 +11,12 @@ define('APP',MILO.'/app');
 define('MODULE','app');
 
 define('DEBUG',true);
+if (DEBUG)
+{
+    
+}
 DEBUG?ini_set('display_errors','On'):ini_set('display_errors','Off');
-include  CORE.'/milo.php';
-spl_autoload_register('\core\milo::load');
-\core\milo::run();
+include  CORE.'/MiloPHP.php';
+spl_autoload_register('\core\MiloPHP::load');
+\core\MiloPHP::run();
 

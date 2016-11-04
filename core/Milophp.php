@@ -6,18 +6,22 @@
  * Time: 3:52 PM
  */
 namespace core;
-class  milo{
+use core\lib\Route;
+
+class  MiloPHP
+{
     public static $classMap= array();
+
     public static function run()
     {
-        $route = new \core\lib\route();
+        $route = new Route();
         $control=$route->control;
         $action=$route->action;
-        $CtrlFile=APP.'/control/'.$control.'Control'.'.php';
-        $CtrlClass='\\'.MODULE.'\control\\'.$control.'Control';
+        $CtrlFile=APP.'/controller/'.$control.'Controller'.'.php';
+        $CtrlClass='\\'.MODULE.'\controller\\'.$control.'Controller';
         if (is_file($CtrlFile))
         {
-           include $CtrlFile;
+           include_once $CtrlFile;
            $ctrl = new $CtrlClass();
            if (method_exists($ctrl,$action))
            {
@@ -25,12 +29,14 @@ class  milo{
            }
            else
            {
-               throw new \Exception('找不到方法'.$action);
+              header("Location:http://localhost/index/not");
+              exit();
            }
         }
         else
         {
-            throw new \Exception('找不到控制器'.$CtrlClass);
+            header("Location:http://localhost/index/not");
+            exit();
         }
     }
     public static function load($class)
@@ -45,7 +51,7 @@ class  milo{
             $file=MILO.'/'.$class.'.php';
             if(is_file($file))
             {
-                include $file;
+                include_once $file;
                 self::$classMap[$class]=$class;
             }
             else

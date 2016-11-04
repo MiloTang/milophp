@@ -7,9 +7,9 @@
  */
 namespace core\lib;
 
-class route
+class Route
 {
-    public $control ='index';
+    public $control ='IndexController';
     public $action ='index';
     public $params  = array();
 
@@ -25,7 +25,7 @@ class route
             }
             else
             {
-                $this->control = 'index';
+                $this->control = 'IndexController';
             }
             if(isset($uriArr[1]))
             {
@@ -54,12 +54,5 @@ class route
         }
 
     }
-    public static function dumpArr($arr){
-        echo 'Array ('.'<br>';
-        foreach ($arr as $key=>$value){
-            echo "[<b>$key</b>]".'  <b>=></b>  '.$value.'<br>';
-
-        }
-        echo ')';
-    }
+   
 }
