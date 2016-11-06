@@ -5,8 +5,8 @@
     "keywords":["MILO PHP","PHP"],
     "require":{
         "php":">=5.6.0",
-        "filp/whoops":"*",
-        "smarty/smarty": "*"
+        "filp/whoops":"*"
+
 
     },
 

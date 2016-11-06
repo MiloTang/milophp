@@ -9,11 +9,22 @@ namespace core\lib;
 
 class Route
 {
-    public $control ='index';
-    public $action ='index';
-    public $params  = array();
+    private $control ='index';
+    private $action ='index';
+    private $params  = array();
+    private static $_instance;
+    public static  function getInstance()
+    {
+        if (!(self::$_instance instanceof self)) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+    private function __clone()
+    {
 
-    public function __construct()
+    }
+    private function __construct()
     {
         if(isset($_SERVER['REQUEST_URI'])&&$_SERVER['REQUEST_URI'] != '/')
         {
@@ -53,6 +64,18 @@ class Route
             }
         }
 
+    }
+    public function getControl()
+    {
+        return $this->control;
+    }
+    public function getAction()
+    {
+        return $this->action;
+    }
+    public function getParams()
+    {
+        return $this->params;
     }
    
 }

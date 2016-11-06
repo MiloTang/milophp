@@ -15,8 +15,21 @@ class ValidateCode {
     private $img;        //图形资源句柄
     private $fontSize = 18;    //指定字体大小
     private $fontColor;      //指定字体颜色
-    public function __construct() {
+    private static $_instance;
+    private function __construct()
+    {
         $this->font ='./core/lib/font/ALGER.TTF';
+    }
+    public static  function getInstance()
+    {
+        if (!(self::$_instance instanceof self)) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+    private function __clone()
+    {
+
     }
     private function createCode() {
 

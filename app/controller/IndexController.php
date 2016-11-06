@@ -6,16 +6,21 @@
  * Time: 22:01
  */
 namespace app\controller;
+use core\common\PrintFormat;
 use core\lib\BaseController;
+use core\lib\Conf;
+use core\lib\Model;
 use core\lib\ValidateCode;
-
-
 class IndexController extends BaseController
 {
     public function index()
     {
+        $conf=Conf::getInstance();
+        $model1=Model::getInstance($conf->all('DBConf'));
+        PrintFormat::dump( $model1->select('user'));
         $this->assign('name','wwwww');
-        $this->display('index.html');
+        $this->display('index.tpl');
+
     }
     public function not()
     {
@@ -24,7 +29,7 @@ class IndexController extends BaseController
     }
     public function code()
     {
-        $code = new ValidateCode();
+        $code = $code=ValidateCode::getInstance();
         $code->doImg(5);
     }
 }

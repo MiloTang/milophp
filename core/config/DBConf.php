@@ -7,7 +7,10 @@
  */
 return array(
 
-  'DSN' => 'mysql:host=localhost;dbname=mysql',
-  'USERNAME' => 'root',
-  'PASSWD' =>''
+    'DSN' => 'mysql:host=localhost;dbname=mysql',
+    'USERNAME' => 'root',
+    'PASSWD' =>'',
+    'DBNAME'=>'demo',
+    'CHARSET'=>'utf8',
+    'PORT'=>'3306'
 );

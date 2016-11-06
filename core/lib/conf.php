@@ -10,7 +10,23 @@ use core\MiloPHP;
 
 class Conf
 {
-    static public $conf;
+    private static $conf;
+    private static $_instance;
+    private function __construct()
+    {
+
+    }
+    public static  function getInstance()
+    {
+        if (!(self::$_instance instanceof self)) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+    private function __clone()
+    {
+
+    }
     static public function all($file)
     {
         if(isset(self::$conf[$file]))

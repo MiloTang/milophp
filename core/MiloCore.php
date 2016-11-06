@@ -17,9 +17,9 @@ class  MiloCore
     {
         DEBUG?ini_set('display_errors','On'):ini_set('display_errors','Off');
         spl_autoload_register('\core\MiloCore::load');
-        $route = new Route();
-        $control=$route->control;
-        $action=$route->action;
+        $route = Route::getInstance();
+        $control=$route->getControl();
+        $action=$route->getAction();
         $CtrlFile=APP.'/controller/'.$control.'Controller'.'.php';
         $CtrlClass='\\'.MODULE.'\controller\\'.$control.'Controller';
         if (is_file($CtrlFile))
