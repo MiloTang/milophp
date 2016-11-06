@@ -14,8 +14,8 @@ class IndexController extends BaseController
 {
     public function index()
     {
-        $this->assign('name','data');
-        $this->display('index.tpl');
+        $this->assign('name','wwwww');
+        $this->display('index.html');
     }
     public function not()
     {

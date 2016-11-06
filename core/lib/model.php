@@ -11,7 +11,7 @@ class Model extends \PDO
 {
     public function __construct()
     {
-        $database=Conf::all('database');
+        $database=Conf::all('DBConf');
         try
         {
             parent::__construct($database['DSN'], $database['USERNAME'], $database['PASSWD']);
@@ -19,8 +19,6 @@ class Model extends \PDO
         {
             echo $e->getMessage();
         }
-
-
     }
     private function __clone()
     {

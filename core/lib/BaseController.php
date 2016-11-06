@@ -24,7 +24,7 @@ class BaseController
     }
     public function assign($name,$data)
     {
-        self::$smarty->assign('name','nim');
+        self::$smarty->assign($name,$data);
     }
     public function display($view)
     {

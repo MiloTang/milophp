@@ -34,9 +34,7 @@ class  MiloCore
            {
               if (DEBUG)
               {
-
                   PrintFormat::echoStr("$action 方法不存在");
-
               }
               else
               {
@@ -92,7 +90,5 @@ class  MiloCore
                 return false;
             }
         }
-
     }
-    
 }
