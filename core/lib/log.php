@@ -10,7 +10,23 @@ use core\lib\drive\log\File;
 
 class Log
 {
-    static $class;
+    private static $class;
+    private static $_instance;
+    private function __construct()
+    {
+
+    }
+    public static  function getInstance()
+    {
+        if (!(self::$_instance instanceof self)) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+    private function __clone()
+    {
+
+    }
     static public function log($message,$name='log')
     {
         self::$class=new File();

@@ -6,11 +6,13 @@
  * Time: 3:42 PM
  */
 namespace app\model;
+use core\lib\Conf;
 use core\lib\Model;
 
 class UserModel extends Model
 {
     public $table='user';
+    
     public function lists()
     {
         $rst=$this->select($this->table);

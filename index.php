@@ -7,10 +7,10 @@
  */
 define('MILO',realpath('./'));
 define('CORE',MILO.'/core');
-define('APP',MILO.'/app');
+define('APP',MILO.'./app');
 define('MODULE','app');
 define('DEBUG',true);
 
-include  CORE.'/MiloCore.php';
+include CORE.'/MiloCore.php';
 \core\MiloCore::run();
 

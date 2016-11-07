@@ -6,38 +6,51 @@
  * Time: 3:06 PM
  */
 namespace core\lib;
-use core\lib\Conf;
-class Model extends \PDO
+class Model
 {
-    public function __construct()
-    {
-        $database=Conf::all('database');
-        try
-        {
-            parent::__construct($database['DSN'], $database['USERNAME'], $database['PASSWD']);
-        }catch (\PDOException $e)
-        {
-            echo $e->getMessage();
-        }
+    private $_host;
+    private $_port;
+    private $_user;
+    private $_password;
+    private $_charset;
+    private $_dbname;
+    private $_link;
+    private static $_instance;
+    private $_pdo = null;
 
-
-    }
     private function __clone()
     {
 
     }
+    private function __construct($dbConf) {
+        try {
+            $this->_pdo = new \PDO($dbConf['DSN'], $dbConf['USERNAME'], $dbConf['PASSWD']);
+        } catch (\PDOException $e) {
+            exit($e->getMessage());
+        }
+    }
+    static public function getInstance($dbConf) {
+        if (!(static::$_instance instanceof static)) {
+            static::$_instance = new static($dbConf);
+        }
+        return static::$_instance;
+    }
+    private function _setCharset()
+    {
+        $sql = "SET NAMES $this->_charset";
+        static::$_instance->query($sql);
+    }
+    private function _selectDB()
+    {
+        $sql = "USE `$this->_dbname`";
+        $this->query($sql);
+    }
     public function select($table,array $data=null,array $option=null)
     {
-        if($this->tableCheck($table))
-        {
-            $rst = $this->query("select * from $table")->fetchAll();
+
+            $rst = $this->_pdo->query("select * from $table")->fetchAll();
             return $rst;
-        }
-        else
-        {
-            echo $table.'not exist';
-            return null;
-        }
+
 
     }
     public function update()
