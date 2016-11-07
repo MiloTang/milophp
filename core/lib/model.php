@@ -90,6 +90,7 @@ class Model
 
         $col=null;
         $condition=null;
+        $exec=array();
         if ($column==null&&$where==null)
         {
             try
@@ -113,8 +114,6 @@ class Model
         {
             if (is_array($where))
             {
-
-                $exec=array();
                 foreach ($where as $keys => $values)
                 {
                     if (is_array($values))
