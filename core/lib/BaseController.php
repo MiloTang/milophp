@@ -15,14 +15,13 @@ class BaseController
     public function __construct()
     {
         $this->smarty = new \Smarty();
-        $this->smarty->template_dir = APP.'/views/templates/';
-        $this->smarty->compile_dir = APP.'/views/templates_c/';
-        $this->smarty->config_dir = APP.'/views/configs/';
-        $this->smarty->cache_dir = APP.'/views/cache/';
+        $this->smarty->setTemplateDir(APP.'/views/templates/');
+        $this->smarty->setCacheDir(APP.'/views/cache/');
+        $this->smarty->setCompileDir( APP.'/views/templates_c/');
+        $this->smarty->setConfigDir(APP.'/views/configs/');
         $this->smarty->cache_lifetime=120;
         $this->smarty->caching = false;
     }
-
     public function assign($name,$data)
     {
         $this->smarty->assign($name,$data);

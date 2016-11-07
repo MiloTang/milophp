@@ -24,7 +24,7 @@ class PrintFormat
             }
             else
             {
-                echo "[<b>$keys</b>]".'  <b>=></b>  '.$values.'<br>';
+                echo "<h2 style='color: red'>[<b>$keys</b>]".'  <b>=></b>  '.$values.'<br>';
             }
 
         }

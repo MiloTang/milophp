@@ -15,7 +15,14 @@ class IndexController extends BaseController
 {
     public function index()
     {
-        $this->assign('name','wwwww');
+        $Conf=Conf::getInstance();
+        $DBConf=$Conf->all('DBConf');
+        $model=Model::getInstance($DBConf);
+        $column=array('Host','User');
+        $where[1]=['logic'=> '','User'=>'pma','operator'=>'='];
+        $where[2]=['logic'=> 'and','Host'=>'localhost','operator'=>'='];
+        PrintFormat::dump($model->select('user',$column,$where));
+        $this->assign('name','www');
         $this->display('index.tpl');
     }
     public function not()

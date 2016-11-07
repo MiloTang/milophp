@@ -6,11 +6,10 @@
  * Time: 5:22 PM
  */
 return array(
-
-    'DSN' => 'mysql:host=localhost;dbname=mysql',
-    'USERNAME' => 'root',
-    'PASSWD' =>'',
-    'DBNAME'=>'demo',
-    'CHARSET'=>'utf8',
-    'PORT'=>'3306'
+    'dsn' => 'mysql:host=localhost;charset=utf8;',
+    'username' => 'root',
+    'password' =>'',
+    'dbName'=>'mysql',
+    'charset'=>'utf8',
+    'port'=>'3306'
 );

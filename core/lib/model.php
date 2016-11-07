@@ -8,13 +8,12 @@
 namespace core\lib;
 class Model
 {
-    private $_host;
+    private $_dsn;
     private $_port;
-    private $_user;
+    private $_username;
     private $_password;
     private $_charset;
-    private $_dbname;
-    private $_link;
+    private $_dbName;
     private static $_instance;
     private $_pdo = null;
 
@@ -23,10 +22,51 @@ class Model
 
     }
     private function __construct($dbConf) {
-        try {
-            $this->_pdo = new \PDO($dbConf['DSN'], $dbConf['USERNAME'], $dbConf['PASSWD']);
+        $this->_initDBCConf($dbConf);
+        $this->_linkMysql();
+        $this->_setCharset();
+        $this->_selectDB();
+    }
+    private function _initDBCConf($dbConf)
+    {
+        if (DEBUG)
+        {
+            $this->_dsn = isset($dbConf['dsn'])?$dbConf['dsn']:die('请配置dsn');
+            $this->_dbName = isset($dbConf['dbName'])?$dbConf['dbName']:die('请配置数据库');
+            $this->_username = isset($dbConf['username'])?$dbConf['username']:die('请配置用户名');
+            $this->_password = isset($dbConf['password'])?$dbConf['password']:die('请配置用户密码');
+            $this->_charset = isset($dbConf['charset'])?$dbConf['charset']:'utf8';
+            $this->_port = isset($dbConf['port'])?$dbConf['port']:'3306';
+        }
+        else
+        {
+            $this->_dsn = isset($dbConf['dsn'])?$dbConf['dsn']:die();
+            $this->_dbName = isset($dbConf['dbName'])?$dbConf['dbName']:die();
+            $this->_username = isset($dbConf['username'])?$dbConf['username']:die();
+            $this->_password = isset($dbConf['password'])?$dbConf['password']:die();
+            $this->_charset = isset($dbConf['charset'])?$dbConf['charset']:'utf8';
+            $this->_port = isset($dbConf['port'])?$dbConf['port']:'3306';
+        }
+    }
+    private function _linkMysql()
+    {
+        try
+        {
+            $this->_dsn = $this->_dsn."$this->_port;";
+            $this->_pdo = new \PDO($this->_dsn,$this->_username, $this->_password);
+            $this->_pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->_pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+            $this->_pdo->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,true);
+            //$this->_pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
         } catch (\PDOException $e) {
-            exit($e->getMessage());
+            if (DEBUG)
+            {
+                exit($e->getMessage());
+            }
+            else
+            {
+                exit();
+            }
         }
     }
     static public function getInstance($dbConf) {
@@ -38,20 +78,120 @@ class Model
     private function _setCharset()
     {
         $sql = "SET NAMES $this->_charset";
-        static::$_instance->query($sql);
+        $this->_pdo->query($sql);
     }
     private function _selectDB()
     {
-        $sql = "USE `$this->_dbname`";
-        $this->query($sql);
+        $sql = "USE `$this->_dbName`";
+        $this->_pdo->query($sql);
     }
-    public function select($table,array $data=null,array $option=null)
+    public function select($table,$column=null,$where=null,$debug=false)
     {
 
-            $rst = $this->_pdo->query("select * from $table")->fetchAll();
+        $col=null;
+        $condition=null;
+        if ($column==null&&$where==null)
+        {
+            try
+            {
+                $rst = $this->_pdo->query("select * from $table")->fetchAll();
+                return $rst;
+            }
+            catch (\PDOException $e)
+            {
+                if (DEBUG)
+                {
+                    exit($e->getMessage());
+                }
+                else
+                {
+                    exit();
+                }
+            }
+        }
+        if ($where!=null)
+        {
+            if (is_array($where))
+            {
+
+                $exec=array();
+                foreach ($where as $keys => $values)
+                {
+                    if (is_array($values))
+                    {
+                        if (isset($values['logic'])&&isset($values['operator']))
+                        {
+                            foreach ($values as $key => $value)
+                            {
+                                if ($key!='logic'&&$key!='operator')
+                                {
+                                    $condition.=$values['logic'].' '.$key.$values['operator'].' '.":$value".' ';
+                                    $exec[":$value"] = $value;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            die('where 数组参数不对');
+                        }
+                    }
+                    else
+                    {
+                        die('where此参数需要二维数组');
+                    }
+
+                }
+            }
+            else
+            {
+                die('where此参数需要二维数组');
+            }
+        }
+        if($column!=null)
+        {
+            foreach ($column as $key => $value)
+            {
+                if ($col!=null)
+                {
+                    $col.=','.$value;
+                }
+                else
+                {
+                    $col=$value;
+                }
+            }
+        }
+        if ($col!=null)
+        {
+            $sql = "select $col from $table where $condition";
+        }
+        else
+        {
+            $sql = "select * from $table where $condition";
+        }
+
+        if($debug)
+        {
+            $this->debug($sql);
+        }
+        try
+        {
+            $stmt = $this->_pdo->prepare($sql);
+            $stmt->execute($exec);
+            $rst=$stmt->fetchAll();
             return $rst;
-
-
+        }
+        catch (\PDOException $e)
+        {
+            if (DEBUG)
+            {
+                exit($e->getMessage());
+            }
+            else
+            {
+                exit();
+            }
+        }
     }
     public function update()
     {
@@ -74,7 +214,7 @@ class Model
         $rst = $this->query('show tables')->fetchAll();
         foreach ($rst as $keys => $values)
         {
-             if ($table==$values['Tables_in_mysql'])
+             if ($table==$values["Tables_in_.$this->_dbName"])
              {
                  return true;
                  break;
@@ -112,8 +252,13 @@ class Model
     {
 
     }
-    public function close()
+    private function debug($sql)
     {
 
+        die($sql);
+    }
+    public function close()
+    {
+        $this->_pdo = null;
     }
 }
