@@ -9,16 +9,9 @@
     </script>
 </head>
 <body>
-<<<<<<< HEAD
+
 Hello, {$name}!
 <label><img src="http://localhost/index/code" onclick="javascript:this.src='http://localhost/index/code/'+Math.random();" /></label>
-=======
 
-
-
-
-<img src="http://localhost/index/code" id="getCode" />
-
->>>>>>> c286b0dd151badb39e6a82181208796642838851
 </body>
 </html>

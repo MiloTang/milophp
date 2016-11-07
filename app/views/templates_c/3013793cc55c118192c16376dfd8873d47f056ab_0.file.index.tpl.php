@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-06 13:42:32
-  from "E:\xampp\htdocs.\app\views\templates\index.tpl" */
+/* Smarty version 3.1.30, created on 2016-11-07 04:22:43
+  from "C:\MILO\code\xampp\htdocs.\app\views\templates\index.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_581f2538d17289_23007604',
+  'unifunc' => 'content_581ff3834c6b29_80103425',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
-    '8cef353573f5ea9a627a913ffc2c82b164345356' => 
+    '3013793cc55c118192c16376dfd8873d47f056ab' => 
     array (
-      0 => 'E:\\xampp\\htdocs.\\app\\views\\templates\\index.tpl',
-      1 => 1478312078,
+      0 => 'C:\\MILO\\code\\xampp\\htdocs.\\app\\views\\templates\\index.tpl',
+      1 => 1478488962,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_581f2538d17289_23007604 (Smarty_Internal_Template $_smarty_tpl) {
+function content_581ff3834c6b29_80103425 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -38,10 +38,9 @@ function content_581f2538d17289_23007604 (Smarty_Internal_Template $_smarty_tpl)
 </head>
 <body>
 
-
-
-
-<img src="http://localhost/index/code" id="getCode" />
+Hello, <?php echo $_smarty_tpl->tpl_vars['name']->value;?>
+!
+<label><img src="http://localhost/index/code" onclick="javascript:this.src='http://localhost/index/code/'+Math.random();" /></label>
 
 </body>
 </html><?php }
