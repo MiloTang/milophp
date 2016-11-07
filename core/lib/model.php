@@ -160,37 +160,44 @@ class Model
                 }
             }
         }
-        if ($col!=null)
+        if ($col==null)
+        {
+            $col='*';
+        }
+        if ($condition!=null)
         {
             $sql = "select $col from $table where $condition";
+            if($debug)
+            {
+                $this->debug($sql);
+            }
+            try
+            {
+                $stmt = $this->_pdo->prepare($sql);
+                $stmt->execute($exec);
+                $rst=$stmt->fetchAll();
+                return $rst;
+            }
+            catch (\PDOException $e)
+            {
+                if (DEBUG)
+                {
+                    exit($e->getMessage());
+                }
+                else
+                {
+                    exit();
+                }
+            }
         }
         else
         {
-            $sql = "select * from $table where $condition";
-        }
-
-        if($debug)
-        {
-            $this->debug($sql);
-        }
-        try
-        {
-            $stmt = $this->_pdo->prepare($sql);
-            $stmt->execute($exec);
-            $rst=$stmt->fetchAll();
+            $sql = "select $col from $table";
+            $rst = $this->_pdo->query($sql)->fetchAll();
             return $rst;
         }
-        catch (\PDOException $e)
-        {
-            if (DEBUG)
-            {
-                exit($e->getMessage());
-            }
-            else
-            {
-                exit();
-            }
-        }
+
+
     }
     public function update()
     {
