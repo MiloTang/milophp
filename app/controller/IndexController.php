@@ -31,6 +31,13 @@ class IndexController extends BaseController
        // new BaseController();
        // $this->assign('view','试图势力');
        // $this->display('index.html');
+        $arr=array('a'=>'aaa','b'=>'aaaa','c'=>'aaaaa','d'=>'aaaaaa','e'=>'aaaaaaa');
+        extract($arr);
+        foreach ($arr as $key=>$value)
+        {
+            echo $key.' => '.$value.'<br>';
+        }
+
         $this->assign('name','data');
         $this->display('index.tpl');
 
