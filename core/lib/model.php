@@ -16,7 +16,6 @@ class Model
     private $_dbName;
     private static $_instance;
     private $_pdo = null;
-
     private function __clone()
     {
 
@@ -85,12 +84,22 @@ class Model
         $sql = "USE `$this->_dbName`";
         $this->_pdo->query($sql);
     }
+
+    /**
+     * @param $table 表名
+     * @param null $column 需要查询的列组成一个一维数组
+     * @param null $where  查询条件，此为一个二维数组，型如$where[1]=[logic,列和要比较的数据,operator]
+     * 如果$where['limit']那么其值为['limit',$n,$m]
+     * @param bool $debug
+     * @return mixed
+     */
     public function select($table,$column=null,$where=null,$debug=false)
     {
 
         $col=null;
         $condition=null;
         $exec=array();
+        $limit=null;
         if ($column==null&&$where==null)
         {
             try
@@ -110,6 +119,258 @@ class Model
                 }
             }
         }
+        if ($where!=null)
+        {
+            if (is_array($where))
+            {
+                if (isset($where['limit']))
+                {
+                    $limitArr=$where['limit'];
+                    unset($where['limit']);
+                    foreach ($limitArr as $key=>$value)
+                    {
+                        if ($key==1)
+                        {
+                            $limit.=' '.$value.',';
+                        }
+                        else
+                        {
+                            $limit.=' '.$value;
+                        }
+
+                    }
+                }
+                foreach ($where as $keys => $values)
+                {
+                    if (is_array($values))
+                    {
+                        if (isset($values['logic'])&&isset($values['operator']))
+                        {
+                            foreach ($values as $key => $value)
+                            {
+                                if ($key!='logic'&&$key!='operator')
+                                {
+                                    $condition.=$values['logic'].' '.$key.$values['operator'].' '.":$value".' ';
+                                    $exec[":$value"] = $value;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            die('where 数组参数不对');
+                        }
+                    }
+                    else
+                    {
+                        die('where此参数需要二维数组1');
+                    }
+
+                }
+            }
+            else
+            {
+                die('where此参数需要二维数组2');
+            }
+        }
+        if($column!=null)
+        {
+            foreach ($column as $key => $value)
+            {
+                if ($col!=null)
+                {
+                    $col.=','.$value;
+                }
+                else
+                {
+                    $col=$value;
+                }
+            }
+        }
+        if ($col==null)
+        {
+            $col='*';
+        }
+        if ($condition!=null)
+        {
+            $sql = "select $col from $table where $condition $limit";
+            if($debug)
+            {
+                $this->debug($sql);
+            }
+            try
+            {
+                $stmt = $this->_pdo->prepare($sql);
+                $stmt->execute($exec);
+                $rst=$stmt->fetchAll();
+                return $rst;
+            }
+            catch (\PDOException $e)
+            {
+                if (DEBUG)
+                {
+                    exit($e->getMessage());
+                }
+                else
+                {
+                    exit();
+                }
+            }
+        }
+        else
+        {
+            $sql = "select $col from $table $limit";
+            $rst = $this->_pdo->query($sql)->fetchAll();
+            return $rst;
+        }
+
+
+    }
+
+    /**
+     * @param $sql
+     * @param $bindParams
+     * @param bool $debug
+     * @return mixed
+     */
+    public function doAny($sql,$bindParams,$debug=false)
+    {
+        if($debug)
+        {
+            $this->debug($sql);
+        }
+        try
+        {
+            $stmt = $this->_pdo->prepare($sql);
+            $stmt->execute($bindParams);
+            if(substr(trim($sql),0,6)=='select')
+            {
+                $rst=$stmt->fetchAll();
+            }
+            else
+            {
+                $rst= $stmt->execute($bindParams);
+            }
+
+            return $rst;
+        }
+        catch (\PDOException $e)
+        {
+            if (DEBUG)
+            {
+                exit($e->getMessage());
+            }
+            else
+            {
+                exit();
+            }
+        }
+    }
+
+    /**
+     * @param $table
+     * @param $values
+     * @param $where
+     * @param bool $debug
+     * @return mixed
+     */
+    public function update($table,$values,$where,$debug=false)
+    {
+        $sql=null;
+        $exec=array();
+        $condition=null;
+        if (is_array($values))
+        {
+            foreach ($values as $key=>$value)
+            {
+                $exec[":$key"]=$value;
+                if ($sql==null)
+                {
+                    $sql="update $table set $key = :$key";
+                }
+                else
+                {
+                    $sql.=','."$key = :$key";
+                }
+            }
+            if ($where!=null)
+            {
+                if (is_array($where))
+                {
+                    foreach ($where as $keys => $values)
+                    {
+                        if (is_array($values))
+                        {
+                            if (isset($values['logic'])&&isset($values['operator']))
+                            {
+                                foreach ($values as $key => $value)
+                                {
+                                    if ($key!='logic'&&$key!='operator')
+                                    {
+                                        $condition.=$values['logic'].' '.$key.$values['operator'].' '.":$value".' ';
+                                        $exec[":$value"] = $value;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                die('where 数组参数不对');
+                            }
+                        }
+                        else
+                        {
+                            die('where此参数需要二维数组1');
+                        }
+
+                    }
+                }
+                else
+                {
+                    die('where此参数需要二维数组2');
+                }
+            }
+            if ($condition!=null)
+            {
+                $sql=$sql.' where '.$condition;
+            }
+            if($debug)
+            {
+                $this->debug($sql);
+            }
+            try
+            {
+                $stmt = $this->_pdo->prepare($sql);
+                $rst= $stmt->execute($exec);
+                return $rst;
+            }
+            catch (\PDOException $e)
+            {
+                if (DEBUG)
+                {
+                    exit($e->getMessage());
+                }
+                else
+                {
+                    exit();
+                }
+            }
+        }
+        else
+        {
+            exit('value需要时一个数组');
+        }
+    }
+
+    /**
+     * @param $table
+     * @param $where
+     * @param bool $debug
+     * @return mixed
+     */
+    public function delete($table,$where,$debug=false)
+    {
+        $sql=null;
+        $exec=array();
+        $condition=null;
         if ($where!=null)
         {
             if (is_array($where))
@@ -136,37 +397,69 @@ class Model
                     }
                     else
                     {
-                        die('where此参数需要二维数组');
+                        die('where此参数需要二维数组1');
                     }
 
                 }
             }
             else
             {
-                die('where此参数需要二维数组');
+                die('where此参数需要二维数组2');
             }
         }
-        if($column!=null)
+        $sql='delete from '.$table;
+        if ($condition!=null)
         {
-            foreach ($column as $key => $value)
+            $sql=$sql.' where '.$condition;
+        }
+        if($debug)
+        {
+            $this->debug($sql);
+        }
+        try
+        {
+            $stmt = $this->_pdo->prepare($sql);
+            $rst= $stmt->execute($exec);
+            return $rst;
+        }
+        catch (\PDOException $e)
+        {
+            if (DEBUG)
             {
-                if ($col!=null)
+                exit($e->getMessage());
+            }
+            else
+            {
+                exit();
+            }
+        }
+    }
+
+    /**
+     * @param $table
+     * @param $values
+     * @param $debug
+     * @return mixed
+     */
+    public function insert($table,$values,$debug=false)
+    {
+        $sql=null;
+        $exec=array();
+        if (is_array($values))
+        {
+            foreach ($values as $key=>$value)
+            {
+                $exec[":$key"]=$value;
+                if ($sql==null)
                 {
-                    $col.=','.$value;
+                    $sql="insert into $table values(:$key";
                 }
                 else
                 {
-                    $col=$value;
+                    $sql.=','.":$key";
                 }
             }
-        }
-        if ($col==null)
-        {
-            $col='*';
-        }
-        if ($condition!=null)
-        {
-            $sql = "select $col from $table where $condition";
+            $sql=$sql.')';
             if($debug)
             {
                 $this->debug($sql);
@@ -174,8 +467,7 @@ class Model
             try
             {
                 $stmt = $this->_pdo->prepare($sql);
-                $stmt->execute($exec);
-                $rst=$stmt->fetchAll();
+                $rst= $stmt->execute($exec);
                 return $rst;
             }
             catch (\PDOException $e)
@@ -192,29 +484,14 @@ class Model
         }
         else
         {
-            $sql = "select $col from $table";
-            $rst = $this->_pdo->query($sql)->fetchAll();
-            return $rst;
+            exit('value需要时一个数组');
         }
-
-
     }
-    public function update()
-    {
 
-    }
-    public function delete()
-    {
-
-    }
-    public function insert()
-    {
-
-    }
-    public function sort()
-    {
-
-    }
+    /**
+     * @param $table
+     * @return bool
+     */
     public function tableCheck($table)
     {
         $rst = $this->query('show tables')->fetchAll();
@@ -223,11 +500,16 @@ class Model
              if ($table==$values["Tables_in_.$this->_dbName"])
              {
                  return true;
-                 break;
              }
         }
         return false;
     }
+
+    /**
+     * @param $table
+     * @param $field
+     * @return bool
+     */
     public function fieldsCheck($table,$field)
     {
         $rst = $this->query("desc $table")->fetchAll();
@@ -242,25 +524,58 @@ class Model
         }
         return false;
     }
-    public function counts()
-    {
 
+    /**
+     * @param $table
+     * @param bool $debug
+     * @return mixed
+     */
+    public function counts($table,$debug=false)
+    {
+        $sql='select count(*) from '.$table;
+        if($debug)
+        {
+            $this->debug($sql);
+        }
+        $rowCount=$this->_pdo->query($sql)->fetchColumn();
+        return $rowCount;
     }
     public function startTrans()
     {
-
+        $this->_pdo->beginTransaction();
     }
     public function commitTrans()
     {
+        $this->_pdo->commit();
+    }
 
+    /**
+     * @param $sql
+     * @param $bindParams
+     * @param bool $debug
+     */
+    public function inTrans($sql,$bindParams,$debug=false)
+    {
+
+        if ($this->_pdo->inTransaction())
+        {
+            $this->doAny($sql,$bindParams,$debug=false);
+        }
+        else
+        {
+            exit('没有开启事务');
+        }
     }
     public function rollBackTrans()
     {
-
+        $this->_pdo->rollBack();
     }
+
+    /**
+     * @param $sql
+     */
     private function debug($sql)
     {
-
         die($sql);
     }
     public function close()

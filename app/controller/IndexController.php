@@ -19,9 +19,13 @@ class IndexController extends BaseController
         $DBConf=$Conf->all('DBConf');
         $model=Model::getInstance($DBConf);
         $column=array('Host','User');
-        $where[1]=['logic'=> '','User'=>'pma','operator'=>'='];
-        $where[2]=['logic'=> 'and','Host'=>'localhost','operator'=>'='];
-        PrintFormat::dump($model->select('user',$column,$where));
+        $where[1]=['logic'=> '','id'=>'40970','operator'=>'='];
+        $where[2]=['logic'=> 'or','id'=>'43279','operator'=>'='];
+      //  $where['limit']=['limit','0','1'];
+      //  PrintFormat::dump($model->select('user',$column,$where));
+        $user=['id'=>111111,'name'=>'diu diu ni','age'=>121];
+        echo $model->insert('user',$user);
+        $model->close();
         $this->assign('name','www');
         $this->display('index.tpl');
     }
