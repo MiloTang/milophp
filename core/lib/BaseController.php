@@ -6,7 +6,6 @@
  * Time: 22:45
  */
 namespace core\lib;
-use core\common\PrintFormat;
 
 require_once './core/smarty/libs/Smarty.class.php';
 class BaseController
@@ -35,7 +34,7 @@ class BaseController
         }
         else
         {
-            PrintFormat::echoStr("$view 模板不存在");
+            PrintFm("$view 模板不存在");
         }
 
     }

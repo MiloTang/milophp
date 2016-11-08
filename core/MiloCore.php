@@ -6,7 +6,6 @@
  * Time: 3:52 PM
  */
 namespace core;
-use core\common\PrintFormat;
 use core\lib\Route;
 
 class  MiloCore
@@ -17,6 +16,7 @@ class  MiloCore
     {
         DEBUG?ini_set('display_errors','On'):ini_set('display_errors','Off');
         spl_autoload_register('\core\MiloCore::load');
+        include_once CORE.'/common/Function.php';
         $route = Route::getInstance();
         $control=$route->getControl();
         $action=$route->getAction();
@@ -34,12 +34,12 @@ class  MiloCore
            {
               if (DEBUG)
               {
-                  PrintFormat::echoStr("$action 方法不存在");
+                  PrintFm($action.' 方法不存在');
               }
               else
               {
-                  header("Location:http://localhost/index/not");
-                  exit();
+                  $url='http://localhost/index/not';
+                  JumpUrl($url);
               }
 
            }
@@ -48,12 +48,12 @@ class  MiloCore
         {
             if(DEBUG)
             {
-                PrintFormat::echoStr("$control 控制器不存在");
+                PrintFm($control.' 控制器不存在');
             }
             else
             {
-                header("Location:http://localhost/index/not");
-                exit();
+                $url='http://localhost/index/not';
+                JumpUrl($url);
             }
            
         }
@@ -85,7 +85,7 @@ class  MiloCore
             {
                 if (DEBUG)
                 {
-                    PrintFormat::echoStr('文件不存在 '.$file);
+                    PrintFm('文件不存在 '.$file);
                 }
                 return false;
             }

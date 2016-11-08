@@ -44,7 +44,7 @@ class Conf
             }
             else
             {
-                echo '配置文件不存在'.$file;
+                PrintFm('配置文件不存在'.$file);
             }
         }
     }
