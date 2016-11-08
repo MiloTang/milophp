@@ -11,6 +11,6 @@ define('APP',MILO.'./app');
 define('MODULE','app');
 define('DEBUG',true);
 
-include CORE.'/MiloCore.php';
+require_once CORE.'/MiloCore.php';
 \core\MiloCore::run();
 

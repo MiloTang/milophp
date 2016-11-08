@@ -20,3 +20,11 @@ function JumpUrl($url)
     header('Location:'.$url);
     exit();
 }
+function Post()
+{
+
+}
+function Get()
+{
+
+}

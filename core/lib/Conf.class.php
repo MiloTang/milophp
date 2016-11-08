@@ -6,8 +6,6 @@
  * Time: 5:27 PM
  */
 namespace core\lib;
-use core\MiloPHP;
-
 class Conf
 {
     private static $conf;
@@ -38,7 +36,7 @@ class Conf
             $path = MILO.'/core/config/'.$file.'.php';
             if (is_file($path))
             {
-                $conf = include_once $path;
+                $conf = require_once $path;
                 self::$conf[$file] = $conf;
                 return $conf;
             }

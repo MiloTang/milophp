@@ -9,8 +9,9 @@
     </script>
 </head>
 <body>
-
-Hello, {$name}!
+{foreach from=$name key=k item=v}
+    <li>{$v.id}{$v.name}</li>
+{/foreach}
 <label><img src="http://localhost/index/code" onclick="javascript:this.src='http://localhost/index/code/'+Math.random();" /></label>
 
 </body>

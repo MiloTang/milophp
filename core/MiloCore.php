@@ -20,11 +20,11 @@ class  MiloCore
         $route = Route::getInstance();
         $control=$route->getControl();
         $action=$route->getAction();
-        $CtrlFile=APP.'/controller/'.$control.'Controller'.'.php';
+        $CtrlFile=APP.'/controller/'.$control.'Controller'.'.class.php';
         $CtrlClass='\\'.MODULE.'\controller\\'.$control.'Controller';
         if (is_file($CtrlFile))
         {
-           include_once $CtrlFile;
+           require_once $CtrlFile;
            $ctrl = new $CtrlClass();
            if (method_exists($ctrl,$action))
            {
@@ -73,12 +73,12 @@ class  MiloCore
             }
             else
             {
-                $file=MILO.'/'.$class.'.php';
+                $file=MILO.'/'.$class.'.class.php';
             }
             
             if(is_file($file))
             {
-                include_once $file;
+                require_once $file;
                 self::$classMap[$class]=$class;
             }
             else
