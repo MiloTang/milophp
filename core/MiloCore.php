@@ -14,6 +14,7 @@ class  MiloCore
 
     public static function run()
     {
+        session_start();
         DEBUG?ini_set('display_errors','On'):ini_set('display_errors','Off');
         spl_autoload_register('\core\MiloCore::load');
         include_once CORE.'/common/Function.php';
@@ -21,7 +22,7 @@ class  MiloCore
         $control=$route->getControl();
         $action=$route->getAction();
         $CtrlFile=APP.'/controller/'.$control.'Controller'.'.class.php';
-        $CtrlClass='\\'.MODULE.'\controller\\'.$control.'Controller';
+        $CtrlClass='app\controller\\'.$control.'Controller';
         if (is_file($CtrlFile))
         {
            require_once $CtrlFile;
@@ -41,7 +42,6 @@ class  MiloCore
                   $url='http://localhost/index/not';
                   JumpUrl($url);
               }
-
            }
         }
         else
@@ -69,13 +69,12 @@ class  MiloCore
             $class=str_replace('\\','/',$class);
             if (strstr($class,'Smarty'))
             {
-                $file='./core/smarty/libs/sysplugins/'.$class.'.php';
+                $file=CORE.'/smarty/libs/sysplugins/'.$class.'.php';
             }
             else
             {
-                $file=MILO.'/'.$class.'.class.php';
+                $file=ROOT.'/'.$class.'.class.php';
             }
-            
             if(is_file($file))
             {
                 require_once $file;

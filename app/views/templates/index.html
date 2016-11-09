@@ -9,8 +9,10 @@
 </head>
 <body>
 <div>
-    <div class=""
-    <h1>{$name}</h1>
+    <div class=""></div>
+         {foreach from=$name key=k item=v}
+            <li>{$v.id}{$v.name}</li>
+        {/foreach}
 
     <div id="editor" style="align-content: center;width: 20rem;height: 20rem"></div>
 </div>

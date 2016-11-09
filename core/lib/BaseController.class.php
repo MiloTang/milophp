@@ -18,6 +18,7 @@ class BaseController
         $this->smarty->setCacheDir(APP.'/views/cache/');
         $this->smarty->setCompileDir( APP.'/views/templates_c/');
         $this->smarty->setConfigDir(APP.'/views/configs/');
+        $this->smarty->compile_check=false;
         $this->smarty->cache_lifetime=120;
         $this->smarty->caching = false;
     }
@@ -34,7 +35,7 @@ class BaseController
         }
         else
         {
-            PrintFm("$view 模板不存在");
+            PrintFm($view.' 模板不存在');
         }
 
     }

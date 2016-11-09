@@ -33,7 +33,7 @@ class Conf
         }
         else
         {
-            $path = MILO.'/core/config/'.$file.'.php';
+            $path = ROOT.'/core/config/'.$file.'.php';
             if (is_file($path))
             {
                 $conf = require_once $path;

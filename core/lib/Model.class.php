@@ -51,7 +51,7 @@ class Model
     {
         try
         {
-            $this->_dsn = $this->_dsn."$this->_port;";
+            $this->_dsn = $this->_dsn.$this->_port;
             $this->_pdo = new \PDO($this->_dsn,$this->_username, $this->_password);
             $this->_pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             $this->_pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
@@ -76,12 +76,12 @@ class Model
     }
     private function _setCharset()
     {
-        $sql = "SET NAMES $this->_charset";
+        $sql = 'SET NAMES '.$this->_charset;
         $this->_pdo->query($sql);
     }
     private function _selectDB()
     {
-        $sql = "USE `$this->_dbName`";
+        $sql = 'USE '.$this->_dbName;
         $this->_pdo->query($sql);
     }
 
@@ -104,7 +104,12 @@ class Model
         {
             try
             {
-                $rst = $this->_pdo->query("select * from $table")->fetchAll();
+                $sql='select * from '.$table;
+                $rst=$this->cacheRead($sql);
+                if($rst==null)
+                {
+                    $rst = $this->_pdo->query($sql)->fetchAll();
+                }
                 return $rst;
             }
             catch (\PDOException $e)
@@ -192,16 +197,21 @@ class Model
         }
         if ($condition!=null)
         {
-            $sql = "select $col from $table where $condition $limit";
+            $sql = 'select '.$col.' from '. $table. ' where '. $condition.' '.$limit;
             if($debug)
             {
                 $this->debug($sql);
             }
             try
             {
-                $stmt = $this->_pdo->prepare($sql);
-                $stmt->execute($exec);
-                $rst=$stmt->fetchAll();
+                $rst=$this->cacheRead($sql);
+                if($rst==null)
+                {
+                    $stmt = $this->_pdo->prepare($sql);
+                    $stmt->execute($exec);
+                    $rst=$stmt->fetchAll();
+                    $this->cache($sql,$rst);
+                }
                 return $rst;
             }
             catch (\PDOException $e)
@@ -218,8 +228,13 @@ class Model
         }
         else
         {
-            $sql = "select $col from $table $limit";
-            $rst = $this->_pdo->query($sql)->fetchAll();
+            $sql = 'select '. $col.' from '. $table.' '.$limit;
+            $rst=$this->cacheRead($sql);
+            if($rst==null)
+            {
+                $rst = $this->_pdo->query($sql)->fetchAll();
+                $this->cache($sql,$rst);
+            }
             return $rst;
         }
 
@@ -285,7 +300,7 @@ class Model
                 $exec[":$key"]=$value;
                 if ($sql==null)
                 {
-                    $sql="update $table set $key = :$key";
+                    $sql='update '.$table.' set '. $key. ' = :'.$key;
                 }
                 else
                 {
@@ -581,5 +596,70 @@ class Model
     public function close()
     {
         $this->_pdo = null;
+    }
+    private function cache($sql,$data)
+    {
+        $path='./app/views/cache/';
+        $name='sqlCache.php';
+        $cache[$sql]=$data;
+        if (!isset($_SESSION['cacheTime']))
+        {
+            $_SESSION['cacheTime']=time();
+        }
+        $Time=time()-$_SESSION['cacheTime'];
+        if ($Time>100)
+        {
+            $_SESSION['cacheTime']=time();
+            unlink($path.$name);
+        }
+        if (!file_exists($path.$name))
+        {
+            $_SESSION['cacheTime']=time();
+            file_put_contents($path.$name,'<?php '.PHP_EOL.'return '.PHP_EOL);
+            file_put_contents($path.$name,var_export($cache,true).';'.PHP_EOL,FILE_APPEND);
+        }
+        else
+        {
+            $data=include_once $path.$name;
+            foreach ($data as $key => $value)
+            {
+                if ($key!=$sql)
+                {
+                    $cache=array_merge($data, $cache);
+                    file_put_contents($path.$name,'<?php '.PHP_EOL.'return '.PHP_EOL);
+                    file_put_contents($path.$name,var_export($cache,true).';'.PHP_EOL,FILE_APPEND);
+                }
+            }
+           // $data=file_get_contents($path.$name);
+        }
+    }
+    private function cacheRead($sql)
+    {
+        $Time=time()-$_SESSION['cacheTime'];
+        if ($Time>100)
+        {
+            return null;
+        }
+        $path='./app/views/cache/';
+        $name='sqlCache.php';
+        if (file_exists($path.$name))
+        {
+            $data=include_once $path.$name;
+            foreach ((array)$data as $key => $value)
+            {
+                if ($key!=$sql)
+                {
+                    continue;
+                }
+                else
+                {
+                    return $data[$sql];
+                }
+            }
+        }
+        else
+        {
+            return null;
+        }
     }
 }

@@ -22,9 +22,9 @@ class UserModel extends Model
     public function lists()
     {
         $column=array('id','name');
-        $where[1]=['logic'=> '','id'=>'93483','operator'=>'='];
-        $where[2]=['logic'=> 'or','id'=>'27189','operator'=>'='];
-        $rst=$this->model->select($this->table,$column,$where,false);
+     //   $where[1]=['logic'=> '','id'=>'27189','operator'=>'='];
+     //   $where[2]=['logic'=> 'or','id'=>'135','operator'=>'='];
+        $rst=$this->model->select($this->table,$column,null,false);
         return $rst;
     }
     public function check()

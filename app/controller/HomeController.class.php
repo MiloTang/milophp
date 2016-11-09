@@ -11,14 +11,16 @@ use core\lib\BaseController;
 use core\lib\Conf;
 use core\lib\Model;
 use core\lib\ValidateCode;
-class IndexController extends BaseController
+class HomeController extends BaseController
 {
     public function index()
     {
+        
         $model=new UserModel();
         $data=$model->lists();
+        PrintFm($data);
         $this->assign('name',$data);
-        $this->display('index.tpl');
+        $this->display('index.html');
     }
     public function not()
     {
