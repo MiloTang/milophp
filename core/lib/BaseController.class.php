@@ -6,7 +6,7 @@
  * Time: 22:45
  */
 namespace core\lib;
-
+defined('CORE_PATH') or exit();
 require_once './core/smarty/libs/Smarty.class.php';
 class BaseController
 {

@@ -8,6 +8,7 @@
 /**
  * @param $var
  */
+defined('CORE_PATH') or exit();
 function PrintFm($var=null)
 {
     if(!is_null($var))

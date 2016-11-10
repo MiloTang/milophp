@@ -6,6 +6,7 @@
  * Time: 5:27 PM
  */
 namespace core\lib;
+defined('CORE_PATH') or exit();
 class Conf
 {
     private static $conf;
@@ -33,7 +34,7 @@ class Conf
         }
         else
         {
-            $path = ROOT.'/core/config/'.$file.'.php';
+            $path = CORE_PATH.'/config/'.$file.'.php';
             if (is_file($path))
             {
                 $conf = require_once $path;

@@ -6,7 +6,7 @@
  * Time: 10:18 AM
  */
 namespace core\lib;
-
+defined('CORE_PATH') or exit();
 class Route
 {
     private $control ='index';

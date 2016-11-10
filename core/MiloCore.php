@@ -6,18 +6,17 @@
  * Time: 3:52 PM
  */
 namespace core;
+defined('CORE_PATH') or exit();
 use core\lib\Route;
-
 class  MiloCore
 {
     public static $classMap= array();
-
     public static function run()
     {
         session_start();
         DEBUG?ini_set('display_errors','On'):ini_set('display_errors','Off');
         spl_autoload_register('\core\MiloCore::load');
-        include_once CORE.'/common/Function.php';
+        include_once CORE_PATH.'/common/Function.php';
         $route = Route::getInstance();
         $control=$route->getControl();
         $action=$route->getAction();
@@ -58,7 +57,7 @@ class  MiloCore
            
         }
     }
-    public static function load($class)
+    public static function load(string $class) : bool
     {
         if(isset($classMap[$class]))
         {
@@ -69,7 +68,7 @@ class  MiloCore
             $class=str_replace('\\','/',$class);
             if (strstr($class,'Smarty'))
             {
-                $file=CORE.'/smarty/libs/sysplugins/'.$class.'.php';
+                $file=CORE_PATH.'/smarty/libs/sysplugins/'.$class.'.php';
             }
             else
             {
@@ -79,6 +78,7 @@ class  MiloCore
             {
                 require_once $file;
                 self::$classMap[$class]=$class;
+                return true;
             }
             else
             {

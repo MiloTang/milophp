@@ -6,11 +6,11 @@
  * Time: 3:44 PM
  */
 define('ROOT',$_SERVER['DOCUMENT_ROOT']);
-define('CORE',ROOT.'/core');
+define('CORE_PATH',ROOT.'/core');
 define('APP',ROOT.'/app');
-define('MODULE','app');
+
 define('DEBUG',true);
 
-require_once CORE.'/MiloCore.php';
+require_once CORE_PATH.'/MiloCore.php';
 \core\MiloCore::run();
 

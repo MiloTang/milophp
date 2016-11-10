@@ -6,6 +6,7 @@
  * Time: 6:21 PM
  */
 namespace core\lib;
+defined('CORE_PATH') or exit();
 use core\lib\drive\log\File;
 
 class Log

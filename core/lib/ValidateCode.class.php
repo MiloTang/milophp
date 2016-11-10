@@ -6,7 +6,7 @@
  * Time: 4:03 PM
  */
 namespace core\lib;
-
+defined('CORE_PATH') or exit();
 class ValidateCode {
     private $code;       //验证码
     private $codeLen = 6;     //验证码长度

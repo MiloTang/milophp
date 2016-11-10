@@ -6,6 +6,7 @@
  * Time: 3:06 PM
  */
 namespace core\lib;
+defined('CORE_PATH') or exit();
 class Model
 {
     private $_dsn;
@@ -20,13 +21,13 @@ class Model
     {
 
     }
-    private function __construct($dbConf) {
+    private function __construct(array $dbConf) {
         $this->_initDBCConf($dbConf);
         $this->_linkMysql();
         $this->_setCharset();
         $this->_selectDB();
     }
-    private function _initDBCConf($dbConf)
+    private function _initDBCConf(array $dbConf)
     {
         if (DEBUG)
         {
@@ -68,7 +69,7 @@ class Model
             }
         }
     }
-    static public function getInstance($dbConf) {
+    static public function getInstance(array $dbConf) {
         if (!(static::$_instance instanceof static)) {
             static::$_instance = new static($dbConf);
         }
@@ -86,14 +87,14 @@ class Model
     }
 
     /**
-     * @param $table 表名
-     * @param null $column 需要查询的列组成一个一维数组
-     * @param null $where  查询条件，此为一个二维数组，型如$where[1]=[logic,列和要比较的数据,operator]
+     * @param $table
+     * @param array|null $column 需要查询的列组成一个一维数组
+     * @param array|null $where 查询条件，此为一个二维数组，型如$where[1]=[logic,列和要比较的数据,operator]
      * 如果$where['limit']那么其值为['limit',$n,$m]
      * @param bool $debug
-     * @return mixed
+     * @return null
      */
-    public function select($table,$column=null,$where=null,$debug=false)
+    public function select($table,array $column=null,array $where=null,$debug=false)
     {
 
         $col=null;
@@ -635,6 +636,10 @@ class Model
     }
     private function cacheRead($sql)
     {
+        if (!isset($_SESSION['cacheTime']))
+        {
+            $_SESSION['cacheTime']=time();
+        }
         $Time=time()-$_SESSION['cacheTime'];
         if ($Time>100)
         {
