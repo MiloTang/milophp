@@ -15,6 +15,7 @@ class  MiloCore
     {
         session_start();
         DEBUG?ini_set('display_errors','On'):ini_set('display_errors','Off');
+        DEBUG?ini_set("error_reporting", E_ALL):ini_set(error_reporting(0));
         spl_autoload_register('\core\MiloCore::load');
         include_once CORE_PATH.'/common/Function.php';
         $route = Route::getInstance();

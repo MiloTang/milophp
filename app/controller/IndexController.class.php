@@ -15,6 +15,7 @@ class IndexController extends BaseController
 {
     public function index()
     {
+
         $model=new UserModel();
         $data=$model->lists();
         $this->assign('name',$data);

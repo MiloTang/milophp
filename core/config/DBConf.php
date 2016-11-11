@@ -8,7 +8,7 @@
 return array(
     'dsn' => 'mysql:host=localhost;charset=utf8;',
     'username' => 'root',
-    'password' =>'',
+    'password' =>'milo2007',
     'dbName'=>'test',
     'charset'=>'utf8',
     'port'=>'3306'
